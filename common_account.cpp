@@ -46,9 +46,9 @@ namespace caccount {
                
             Record rec;
             iss   >> rec.sys_timestamp
-                  >> rec.rec_timestamp
                   >> rec.entity
-                  >> rec.amount;
+                  >> rec.amount
+                  >> rec.rec_timestamp;
             push_back (rec);
          }
          file.close();
@@ -70,9 +70,9 @@ namespace caccount {
          unordered_map<uint16_t, double> totals;
          for (const Record& rec : *this) {
             file  << rec.sys_timestamp << m_sep 
-                  << rec.rec_timestamp << m_sep 
                   << rec.entity        << m_sep
-                  << rec.amount        << endl;
+                  << rec.amount        << m_sep 
+                  << rec.rec_timestamp << endl; 
                   
             if (totals.find(rec.entity) != totals.end()){
                totals[rec.entity] += rec.amount;
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
       cout <<  "Insert record "
                "<entity:uint16_t> "
                "<amount:double> "
-               "[timestamp:%d-%m]: " << endl;
+               "[timestamp/idstamp]: " << endl;
       
       caccount::Record rec;
       cin >> rec.entity
